@@ -1,7 +1,0 @@
-EmailSummary.class
-model/Email.class
-api/GoogleApiModule.class
-api/CalendarResources.class
-api/EmailResources.class
-EmailSummaryGenerator.class
-util/EmailSummaryUtil.class
