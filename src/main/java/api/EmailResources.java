@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class EmailResources {
     private static final String USER_ID = "abdurahman.sherif@gmail.com";
@@ -43,7 +44,7 @@ public class EmailResources {
 
         System.out.println("Messages: ");
         // Only get emails from the last 7 days
-        return getEmails(messages, 1L);
+        return getEmails(messages, 3L);
     }
 
     private List<Email> getEmails(List<Message> messages, long duration) throws IOException, ParseException {
@@ -53,8 +54,9 @@ public class EmailResources {
             Message message = getMessage(rawMsg.getId());
             Email email = new Email();
 
-            long timeDiffInHrs = (System.currentTimeMillis() - date.getTime()) / (60 * 60 * 1000 * 24) ;
-            if (timeDiffInHrs > duration) {
+            long timeDiffInDays = TimeUnit.DAYS.convert(System.currentTimeMillis() - date.getTime(),
+                    TimeUnit.MILLISECONDS);
+            if (timeDiffInDays >= duration) {
                 break;
             }
 
