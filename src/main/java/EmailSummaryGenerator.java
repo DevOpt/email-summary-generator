@@ -1,10 +1,12 @@
+import api.CalendarResources;
 import api.EmailResources;
 import model.Email;
+import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 import util.EmailSummaryUtil;
-
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,9 +14,11 @@ import java.util.Map;
 public class EmailSummaryGenerator {
 
     EmailResources emailResources;
+    CalendarResources calendarResources;
 
     public EmailSummaryGenerator() throws GeneralSecurityException, IOException {
         emailResources = new EmailResources();
+        calendarResources = new CalendarResources();
     }
 
     public void generate() throws IOException, ParseException {
@@ -30,6 +34,7 @@ public class EmailSummaryGenerator {
             }
         }
         populateEmailSummaryTable(EmailSummaryUtil.sortByValue(emailAggregator));
+        scheduleAppointments(emails);
     }
 
     private void populateEmailSummaryTable(Map<String, Integer> emailAggregator) {
@@ -48,7 +53,14 @@ public class EmailSummaryGenerator {
         System.out.println("+------------------------------------------+");
     }
 
-    private void scheduleAppointments() {
-        // TODO: Get gmail api for query and use calendar api to add event
+    private void scheduleAppointments(List<Email> emails) throws IOException {
+        for (Email email : emails) {
+            if (email.getFrom()!= null && email.getFrom().contains("betterhelp.com") && email.getSubject().contains("Live Chat Session Scheduled")) {
+                List<Date> dates = new PrettyTimeParser().parse(email.getSubject());
+                if (!dates.isEmpty()) {
+                    calendarResources.addEvent("BH Session", dates.get(0));
+                }
+            }
+        }
     }
 }

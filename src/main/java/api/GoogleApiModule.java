@@ -33,7 +33,7 @@ public class GoogleApiModule {
      * If modifying these scopes, delete your previously saved tokens/ folder.
      */
     private static final List<String> SCOPES = ImmutableList.of(
-            CalendarScopes.CALENDAR_READONLY, GmailScopes.GMAIL_READONLY);
+            CalendarScopes.CALENDAR_EVENTS, GmailScopes.GMAIL_READONLY);
 
     private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
 
