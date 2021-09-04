@@ -45,7 +45,7 @@ public class EmailResources {
 
         System.out.println("Messages: ");
         // Only get emails from the last 7 days
-        return getEmails(messages, 3L);
+        return getEmails(messages, 1L);
     }
 
     private List<Email> getEmails(List<Message> messages, long duration) throws IOException, ParseException {
