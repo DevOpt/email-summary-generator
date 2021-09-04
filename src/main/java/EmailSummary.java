@@ -1,14 +1,22 @@
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.text.ParseException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import config.ApplicationConfig;
+
+import java.io.InputStream;
 
 public class EmailSummary {
 
-    public static void main(String... args) throws GeneralSecurityException, IOException, ParseException {
-        EmailSummaryGenerator summaryGenerator = new EmailSummaryGenerator();
+    private static final String CONFIG_FILE_PATH = "/base.json";
+
+    public static void main(String... args) throws Exception {
+        ObjectMapper om = new ObjectMapper();
+        InputStream in = EmailSummary.class.getResourceAsStream(CONFIG_FILE_PATH);
+
+        ApplicationConfig config = om.readValue(in, ApplicationConfig.class);
+        System.out.println("Email: " + config.getUserId());
+
+        EmailSummaryGenerator summaryGenerator = new EmailSummaryGenerator(config);
         summaryGenerator.generate();
 
-        // TODO: Add BH to calendar schedule
         // TODO: NLP spam detection
     }
 }

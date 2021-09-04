@@ -7,7 +7,6 @@ import com.google.api.services.calendar.model.EventDateTime;
 import com.google.api.services.calendar.model.Events;
 import org.apache.commons.lang3.time.DateUtils;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class CalendarResources {
 
     private static Calendar service;
 
-    public CalendarResources() throws GeneralSecurityException, IOException {
+    public CalendarResources() throws Exception {
         service = GoogleApiModule.calendarService();
     }
 
