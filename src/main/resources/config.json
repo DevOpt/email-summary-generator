@@ -1,6 +1,6 @@
 {
-    "userId": "abdurahman.sherif@gmail.com",
+    "userId": "example@gmail.com",
     "appointmentIdentifiers": [
-        { "sender": "betterhelp.com", "subject": "Live Chat Session Scheduled", "title": "BH Session" }
+        { "sender": "doctor.com", "subject": "Doctor's Appointment Scheduled", "title": "Doctor Visit" }
     ]
 }
