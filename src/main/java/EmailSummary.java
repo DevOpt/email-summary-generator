@@ -5,7 +5,7 @@ import java.io.InputStream;
 
 public class EmailSummary {
 
-    private static final String CONFIG_FILE_PATH = "/base.json";
+    private static final String CONFIG_FILE_PATH = "/config.json";
 
     public static void main(String... args) throws Exception {
         ObjectMapper om = new ObjectMapper();
