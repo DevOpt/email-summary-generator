@@ -2,10 +2,10 @@ package api;
 
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.*;
+import config.ApplicationConfig;
 import model.Email;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,19 +14,20 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class EmailResources {
-    private static final String USER_ID = "abdurahman.sherif@gmail.com";
     private static final String DATE_PATTERN_1 = "EEE, dd MMM yyyy HH:mm:ss Z";
     private static final String DATE_PATTERN_2 = "dd MMM yyyy HH:mm:ss Z";
 
     private static Gmail service;
+    private final ApplicationConfig config;
 
-    public EmailResources() throws GeneralSecurityException, IOException {
+    public EmailResources(ApplicationConfig config) throws Exception {
+        this.config = config;
         service = GoogleApiModule.gmailService();
     }
 
     public void listLabelsResponse() throws IOException {
         // Print the labels in the user's account.
-        ListLabelsResponse listLabelsResponse = service.users().labels().list(USER_ID).execute();
+        ListLabelsResponse listLabelsResponse = service.users().labels().list(config.getUserId()).execute();
         List<Label> labels = listLabelsResponse.getLabels();
         if (labels.isEmpty()) {
             System.out.println("No labels found.");
@@ -39,7 +40,7 @@ public class EmailResources {
     }
 
     public List<Email> listMessages() throws IOException, ParseException {
-        ListMessagesResponse listMessagesResponse = service.users().messages().list(USER_ID).execute();
+        ListMessagesResponse listMessagesResponse = service.users().messages().list(config.getUserId()).execute();
         List<Message> messages = listMessagesResponse.getMessages();
 
         System.out.println("Messages: ");
@@ -82,7 +83,7 @@ public class EmailResources {
     public Message getMessage(String id) throws IOException {
         return service.users()
                 .messages()
-                .get(USER_ID, id)
+                .get(config.getUserId(), id)
                 .execute();
     }
 

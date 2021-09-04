@@ -1,10 +1,11 @@
 import api.CalendarResources;
 import api.EmailResources;
+import config.ApplicationConfig;
+import model.AppointmentIdentifier;
 import model.Email;
 import org.ocpsoft.prettytime.nlp.PrettyTimeParser;
 import util.EmailSummaryUtil;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -15,9 +16,11 @@ public class EmailSummaryGenerator {
 
     EmailResources emailResources;
     CalendarResources calendarResources;
+    ApplicationConfig config;
 
-    public EmailSummaryGenerator() throws GeneralSecurityException, IOException {
-        emailResources = new EmailResources();
+    public EmailSummaryGenerator(ApplicationConfig config) throws Exception {
+        this.config = config;
+        emailResources = new EmailResources(config);
         calendarResources = new CalendarResources();
     }
 
@@ -55,10 +58,12 @@ public class EmailSummaryGenerator {
 
     private void scheduleAppointments(List<Email> emails) throws IOException {
         for (Email email : emails) {
-            if (email.getFrom()!= null && email.getFrom().contains("betterhelp.com") && email.getSubject().contains("Live Chat Session Scheduled")) {
-                List<Date> dates = new PrettyTimeParser().parse(email.getSubject());
-                if (!dates.isEmpty()) {
-                    calendarResources.addEvent("BH Session", dates.get(0));
+            for (AppointmentIdentifier identifier : config.getAppointmentIdentifiers()) {
+                if (email.getFrom()!= null && email.getFrom().contains(identifier.getSender()) && email.getSubject().contains(identifier.getSubject())) {
+                    List<Date> dates = new PrettyTimeParser().parse(email.getSubject());
+                    if (!dates.isEmpty()) {
+                        calendarResources.addEvent(identifier.getTitle(), dates.get(0));
+                    }
                 }
             }
         }
