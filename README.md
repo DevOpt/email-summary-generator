@@ -16,7 +16,8 @@ mvn --version
 git clone https://github.com/<your-username>/email-summary-generator.git
 ```
 Replace <your-username> with your GitHub username.
-3. Create credentials from GCP portal, download the json file and place under `src/main/resources`.
+  
+3. Create credentials from GCP portal, download the json file and place it under `src/main/resources`.
 4. Navigate to `src/main/resources` and update `config.json` file.
 5. On the root directory of your project, enter the following command to compile the application:
 ```shell
